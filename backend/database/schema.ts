@@ -48,3 +48,105 @@ export class UserSchema extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
+
+export class ThemeSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = ThemeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class CategorySchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'slug', 'themeId', 'updatedAt'] as const
+  $columns = CategorySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column()
+  declare themeId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class SubCategorySchema extends BaseModel {
+  static $columns = ['categoryId', 'createdAt', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = SubCategorySchema.$columns
+  @column()
+  declare categoryId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class TopicSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'name', 'subCategoryId', 'updatedAt'] as const
+  $columns = TopicSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare subCategoryId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class QuestionSchema extends BaseModel {
+  static $columns = ['createdAt', 'difficulty', 'explanation', 'id', 'topicId', 'type', 'updatedAt'] as const
+  $columns = QuestionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare difficulty: string
+  @column()
+  declare explanation: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare topicId: number
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
+export class ResponseSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'isCorrect', 'questionId', 'text', 'updatedAt'] as const
+  $columns = ResponseSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isCorrect: boolean
+  @column()
+  declare questionId: number
+  @column()
+  declare text: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+  
+
