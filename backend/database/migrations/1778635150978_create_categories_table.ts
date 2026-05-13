@@ -1,11 +1,12 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'themes'
+  protected tableName = 'categories'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.integer('theme_id').references('id').inTable('themes').onDelete('cascade')
       table.string('name', 255).notNullable()
       table.string('slug', 255).nullable()
       table.text('description', 'longtext').nullable()
