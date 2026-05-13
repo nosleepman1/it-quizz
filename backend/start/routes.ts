@@ -33,5 +33,8 @@ router
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+
+    router
+      .resource('themes', controllers.Themes)
   })
   .prefix('/api/v1')

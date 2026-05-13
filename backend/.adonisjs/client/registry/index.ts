@@ -30,6 +30,48 @@ const routes = {
     tokens: [{"old":"/api/v1/account/logout","type":0,"val":"api","end":""},{"old":"/api/v1/account/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/account/logout","type":0,"val":"account","end":""},{"old":"/api/v1/account/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'themes.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/themes',
+    tokens: [{"old":"/api/v1/themes","type":0,"val":"api","end":""},{"old":"/api/v1/themes","type":0,"val":"v1","end":""},{"old":"/api/v1/themes","type":0,"val":"themes","end":""}],
+    types: placeholder as Registry['themes.index']['types'],
+  },
+  'themes.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/themes/create',
+    tokens: [{"old":"/api/v1/themes/create","type":0,"val":"api","end":""},{"old":"/api/v1/themes/create","type":0,"val":"v1","end":""},{"old":"/api/v1/themes/create","type":0,"val":"themes","end":""},{"old":"/api/v1/themes/create","type":0,"val":"create","end":""}],
+    types: placeholder as Registry['themes.create']['types'],
+  },
+  'themes.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/themes',
+    tokens: [{"old":"/api/v1/themes","type":0,"val":"api","end":""},{"old":"/api/v1/themes","type":0,"val":"v1","end":""},{"old":"/api/v1/themes","type":0,"val":"themes","end":""}],
+    types: placeholder as Registry['themes.store']['types'],
+  },
+  'themes.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/themes/:id',
+    tokens: [{"old":"/api/v1/themes/:id","type":0,"val":"api","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"themes","end":""},{"old":"/api/v1/themes/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['themes.show']['types'],
+  },
+  'themes.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/themes/:id/edit',
+    tokens: [{"old":"/api/v1/themes/:id/edit","type":0,"val":"api","end":""},{"old":"/api/v1/themes/:id/edit","type":0,"val":"v1","end":""},{"old":"/api/v1/themes/:id/edit","type":0,"val":"themes","end":""},{"old":"/api/v1/themes/:id/edit","type":1,"val":"id","end":""},{"old":"/api/v1/themes/:id/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['themes.edit']['types'],
+  },
+  'themes.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/api/v1/themes/:id',
+    tokens: [{"old":"/api/v1/themes/:id","type":0,"val":"api","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"themes","end":""},{"old":"/api/v1/themes/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['themes.update']['types'],
+  },
+  'themes.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/themes/:id',
+    tokens: [{"old":"/api/v1/themes/:id","type":0,"val":"api","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/themes/:id","type":0,"val":"themes","end":""},{"old":"/api/v1/themes/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['themes.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

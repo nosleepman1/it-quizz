@@ -32,8 +32,120 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class CategorySchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'slug', 'themeId', 'updatedAt'] as const
+  $columns = CategorySchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string | null
+  @column()
+  declare themeId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class QuestionSchema extends BaseModel {
+  static $columns = ['createdAt', 'difficulty', 'explanation', 'id', 'question', 'topicId', 'type', 'updatedAt'] as const
+  $columns = QuestionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare difficulty: string | null
+  @column()
+  declare explanation: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare question: string
+  @column()
+  declare topicId: number | null
+  @column()
+  declare type: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ResponseSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'isCorrect', 'questionId', 'response', 'updatedAt'] as const
+  $columns = ResponseSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isCorrect: boolean | null
+  @column()
+  declare questionId: number | null
+  @column()
+  declare response: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SubCategorySchema extends BaseModel {
+  static $columns = ['categoryId', 'createdAt', 'description', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = SubCategorySchema.$columns
+  @column()
+  declare categoryId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ThemeSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'slug', 'updatedAt'] as const
+  $columns = ThemeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class TopicSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'slug', 'subCategoryId', 'updatedAt'] as const
+  $columns = TopicSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column()
+  declare slug: string | null
+  @column()
+  declare subCategoryId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'role', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -45,6 +157,8 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare role: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
