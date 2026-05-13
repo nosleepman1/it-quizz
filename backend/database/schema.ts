@@ -33,7 +33,8 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt', 'role'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -47,6 +48,8 @@ export class UserSchema extends BaseModel {
   declare password: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare role: 'admin' | 'user' 
 }
 
 export class ThemeSchema extends BaseModel {
@@ -148,5 +151,5 @@ export class ResponseSchema extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }
-  
+
 
