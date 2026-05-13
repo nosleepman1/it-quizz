@@ -8,4 +8,13 @@ export const controllers = {
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Themes: () => import('#controllers/themes_controller'),
+  api: {
+    v1: {
+      Categories: () => import('#controllers/api/v_1/categories_controller'),
+      SubCategories: () => import('#controllers/api/v_1/sub_categories_controller'),
+      Topics: () => import('#controllers/api/v_1/topics_controller'),
+      Questions: () => import('#controllers/api/v_1/questions_controller'),
+      Responses: () => import('#controllers/api/v_1/responses_controller'),
+    },
+  },
 }
