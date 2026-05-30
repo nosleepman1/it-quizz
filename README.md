@@ -33,13 +33,14 @@ L'application est pensée pour :
 
 | Couche | Technologie |
 |--------|-------------|
-| **API** | [AdonisJS v6](https://adonisjs.com/) — TypeScript, REST, Lucid ORM |
+| **mobile** | [AdonisJS v6](https://adonisjs.com/) — TypeScript, REST, Lucid ORM |
+| **Web API** | [Laravel 13](https://laravel.com/) - PHP, MVC, clean Architecture |
 | **Web** | [React](https://react.dev/) — TypeScript, Vite, Tailwind CSS |
-| **Mobile** | [React Native](https://reactnative.dev/) — TypeScript, Expo, NativeWind |
-| **Base de données** | PostgreSQL |
-| **Auth** | Sessions + Access Tokens (JWT) |
-| **Validation** | VineJS (Adonis) |
-| **Tests** | Japa (API) + Vitest (Web) |
+| **Mobile views** | [React Native](https://reactnative.dev/) — TypeScript, Expo, NativeWind |
+| **Database** | PostgreSQL |
+| **Auth** | Access Tokens (JWT / Sanctum) |
+| **Validation** | VineJS (Adonis) / FormRequests(Laravel) |
+| **Tests** | Japa (API) + Vitest (Web) + Jest(Mobile) + Pest(Web API) |
 
 ---
 
