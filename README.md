@@ -44,7 +44,7 @@ L'application est pensée pour :
 
 ---
 
-##  Architecture du projet
+<!-- ##  Architecture du projet
 
 ```
 quizdev/
@@ -77,7 +77,7 @@ quizdev/
     │   ├── services/     # Appels API
     │   └── types/        # Types TypeScript partagés
     └── ...
-```
+``` -->
 
 ---
 
@@ -108,7 +108,7 @@ Thème → Catégorie → Sous-catégorie → Topic → Questions
 | Database | NoSQL | MongoDB, Redis, Firebase |
 | Database | Concepts | Transactions, normalisation, ACID |
 
-#### ⚙️ DevOps
+####  DevOps
 | Catégorie | Sous-catégories | Topics exemples |
 |-----------|-----------------|-----------------|
 | Cloud | AWS | EC2, S3, Lambda, RDS, IAM |
