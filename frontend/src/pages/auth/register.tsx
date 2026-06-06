@@ -28,10 +28,7 @@ const Register = () => {
             password,
             firstname,
             lastname,
-            phone,
-            matricule: '', // Peut être ajouté plus tard
-            grade: '', // Peut être ajouté plus tard
-            filiere: '' // Peut être ajouté plus tard
+            phone
         }
         register(request)
     }

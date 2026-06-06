@@ -27,11 +27,8 @@ export interface RegisterResponse {
 export interface RegisterRequest {
     email: string
     password: string
-    matricule: string
     firstname: string
     lastname: string
-    grade: string
-    filiere: string
     phone: string
 }
 
