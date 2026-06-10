@@ -30,4 +30,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function quizzes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
+    public function scores(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Score::class);
+    }
+
+    public function leaderboards(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Leaderboard::class);
+    }
+
+    public function progress(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserProgress::class);
+    }
+
+    public function badges(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Badge::class, 'user_badges')
+                    ->withPivot('earned_at')
+                    ->withTimestamps();
+    }
 }
+
