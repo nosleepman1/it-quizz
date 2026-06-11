@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leaderboard;
+use App\Http\Resources\LeaderboardResource;
+use App\Http\Requests\StoreLeaderboardRequest;
+use App\Http\Requests\UpdateLeaderboardRequest;
 use Illuminate\Http\Request;
 
 class LeaderboardController extends Controller
@@ -18,10 +22,10 @@ class LeaderboardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(storeLeaderboardRequest $request)
+    public function store(StoreLeaderboardRequest $request)
     {
         $leaderboard = Leaderboard::create($request->validated());
-        return new LeaderboardRessource($leaderboard);
+        return new LeaderboardResource($leaderboard);
     }
 
     /**
@@ -35,7 +39,7 @@ class LeaderboardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateLeaderboardRequest $request, Leaderboard $leaderboard)
+    public function update(UpdateLeaderboardRequest $request, Leaderboard $leaderboard)
     {
         $leaderboard->update($request->validated());
         return new LeaderboardResource($leaderboard);
@@ -50,3 +54,4 @@ class LeaderboardController extends Controller
         return response()->json('Leaderboard deleted successfully', 200);
     }
 }
+

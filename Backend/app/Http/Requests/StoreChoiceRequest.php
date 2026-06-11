@@ -23,7 +23,23 @@ class StoreChoiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'question_id' => ['required', 'exists:questions,id'],
+            'choice_text' => ['required', 'string', 'max:255'],
+            'is_correct' => ['required', 'boolean'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation.
+     */
+    public function messages(): array
+    {
+        return [
+            'question_id.required' => 'La question est requise.',
+            'question_id.exists' => 'La question sélectionnée n\'existe pas.',
+            'choice_text.required' => 'Le texte de la réponse est requis.',
+            'is_correct.required' => 'Le statut de la réponse est requis.',
+            'is_correct.boolean' => 'Le statut doit être vrai ou faux.',
         ];
     }
 }

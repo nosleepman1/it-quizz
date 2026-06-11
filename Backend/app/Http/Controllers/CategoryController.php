@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Http\Resources\CategoryResource;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,17 +15,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Cyegory::all();
-        return CategoryRessource::collection($category);
+        $category = Category::all();
+        return CategoryResource::collection($category);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(storeCategoryRequest $request)
+    public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->validated());
-        return new CategoryRessource($category);
+        return new CategoryResource($category);
     }
 
     /**
@@ -29,16 +33,16 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryRessource($category);
+        return new CategoryResource($category);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-            $category->update($request->validated());
-            return new CategoryRessource($category);
+        $category->update($request->validated());
+        return new CategoryResource($category);
     }
 
     /**
@@ -46,7 +50,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-       $category->delete();
-       return response()->json('Category deleted successfully', 200);
+        $category->delete();
+        return response()->json('Category deleted successfully', 200);
     }
 }
+
