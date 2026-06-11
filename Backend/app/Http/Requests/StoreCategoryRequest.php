@@ -23,7 +23,27 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'theme_id' => ['required', 'exists:themes,id'],
+            'slug' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'is_active' => ['required', 'boolean'],
+            'icon' => ['nullable', 'string'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Le nom de la catégorie est requis.',
+            'theme_id.required' => 'Le thème de la catégorie est requis.',
+            'theme_id.exists' => 'Le thème sélectionné n\'existe pas.',
+            'slug.required' => 'Le slug de la catégorie est requis.',
+            'is_active.required' => 'Le statut de la catégorie est requis.',
+            'is_active.boolean' => 'Le statut doit être vrai ou faux.',
         ];
     }
 }

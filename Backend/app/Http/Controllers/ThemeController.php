@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Theme;
+use App\Http\Resources\ThemeResource;
+use App\Http\Requests\StoreThemeRequest;
+use App\Http\Requests\UpdateThemeRequest;
 use Illuminate\Http\Request;
 
 class ThemeController extends Controller
@@ -35,7 +39,7 @@ class ThemeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequest $request, Theme $theme)
+    public function update(UpdateThemeRequest $request, Theme $theme)
     {
         $theme->update($request->validated());
         return new ThemeResource($theme);
@@ -50,3 +54,4 @@ class ThemeController extends Controller
         return response()->json('Theme deleted successfully', 200);
     }
 }
+

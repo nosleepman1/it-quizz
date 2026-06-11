@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('topic_id')->constrained()->cascadeOnDelete();
+            $table->enum('difficulty',['facile','moyen','difficile'])->default('facile');
+            $table->enum('status',['complété','inachevé'])->default('inachevé');
+            $table->integer('total_questions')->default(0);
+            $table->integer('total_correct_answers')->default(0);
             $table->timestamps();
         });
     }

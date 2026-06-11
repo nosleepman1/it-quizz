@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badge;
+use App\Http\Resources\BadgeResource;
+use App\Http\Requests\StoreBadgeRequest;
+use App\Http\Requests\UpdateBadgeRequest;
 use Illuminate\Http\Request;
 
 class BadgeController extends Controller
@@ -35,7 +39,7 @@ class BadgeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateBadgeRequest $request, Badge $badge)
+    public function update(UpdateBadgeRequest $request, Badge $badge)
     {
         $badge->update($request->validated());
         return new BadgeResource($badge);
@@ -50,3 +54,4 @@ class BadgeController extends Controller
         return response()->json('Badge deleted successfully', 200);
     }
 }
+

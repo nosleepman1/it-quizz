@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,16 +16,16 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return UserRessoucre::collection($user);
+        return UserResource::collection($user);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(storeUserRequest $request)
+    public function store(StoreUserRequest $request)
     {
         $user = User::create($request->validated());
-        return new UserRessoucre($user);
+        return new UserResource($user);
     }
 
     /**
@@ -29,16 +33,16 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserRessoucre($user);
+        return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        return new UserRessoucre($user);
+        return new UserResource($user);
     }
 
     /**
@@ -50,3 +54,4 @@ class UserController extends Controller
         return response()->json('User deleted successfully', 200);
     }
 }
+

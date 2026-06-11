@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
+use App\Http\Resources\QuestionResource;
+use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -12,16 +16,16 @@ class QuestionController extends Controller
     public function index()
     {
         $question = Question::all();
-        return QuestionRessoucre::collection($question);
+        return QuestionResource::collection($question);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(storeQuestionRequest $request)
+    public function store(StoreQuestionRequest $request)
     {
        $question = Question::create($request->validated());
-       return new QuestionRessoucre($question);
+       return new QuestionResource($question);
     }
 
     /**
@@ -29,16 +33,16 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        return new QuestionRessoucre($question);
+        return new QuestionResource($question);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(updateQuestionRequest $request, Question $question)
+    public function update(UpdateQuestionRequest $request, Question $question)
     {
         $question->update($request->validated());
-        return new QuestionRessoucre($question);
+        return new QuestionResource($question);
     }
 
     /**
@@ -50,3 +54,4 @@ class QuestionController extends Controller
         return response()->json('Question deleted successfully', 200);
     }
 }
+
