@@ -28,7 +28,6 @@ class StoreThemeRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'icon' => ['nullable', 'string'],
             'is_active' => ['required', 'boolean'],
-            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 
@@ -42,8 +41,6 @@ class StoreThemeRequest extends FormRequest
             'slug.required' => 'Le slug du thème est requis.',
             'is_active.required' => 'Le statut du thème est requis.',
             'is_active.boolean' => 'Le statut doit être vrai ou faux.',
-            'category_id.required' => 'La catégorie est requise.',
-            'category_id.exists' => 'La catégorie sélectionnée n\'existe pas.',
         ];
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Theme extends Model
 {
     protected $fillable = [
+        'slug',
         'name',
         'description',
         'is_active',

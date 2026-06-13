@@ -15,7 +15,9 @@ use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 
+Route::post('login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();

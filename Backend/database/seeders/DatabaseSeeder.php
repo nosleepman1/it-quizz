@@ -2,7 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Badge;
+use App\Models\Choice;
+use App\Models\Question;
+use App\Models\Subcategory;
+use App\Models\Topic;
 use App\Models\User;
+use App\Models\Theme;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,11 +22,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // User
+        // User::factory()->create([
+        //     'username' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Core seeders
+        $this->call([
+            ThemeSeeder::class,
+            CategorySeeder::class,
+            SubcategorySeeder::class,
+            TopicSeeder::class,
+            QuestionSeeder::class,
+            ChoiceSeeder::class,
+            BadgeSeeder::class,
         ]);
     }
 }

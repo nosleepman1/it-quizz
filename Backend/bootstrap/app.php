@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use App\Http\Middleware\AddSuccessFlag;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,8 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'logout',
         ]);
 
-        $middleware->api(prepend: [
+        $middleware->api([
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            App\Http\Middleware\AddSuccessFlag::class,
         ]);
 
         $middleware->alias([
