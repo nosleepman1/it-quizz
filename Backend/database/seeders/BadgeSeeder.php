@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Seeders de l'application IT‑Quiz.
+ *
+ * Chaque seeder insère les données de base nécessaires au bon fonctionnement
+ * de l'API. Les commentaires en français décrivent brièvement le rôle de chaque
+ * tableau et les champs insérés.
+ */
 namespace Database\Seeders;
 
 use App\Models\Badge;

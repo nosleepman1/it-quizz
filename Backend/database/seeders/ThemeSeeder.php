@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Seeder des thèmes.
+ *
+ * Insère les thèmes de base avec leurs slugs, description, icône et statut actif.
+ */
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

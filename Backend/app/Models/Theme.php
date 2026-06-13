@@ -16,7 +16,7 @@ class Theme extends Model
     ];
 
     public function categories(): HasMany
-    {
+    { // Remarque : le champ 'slug' a été ajouté et est unique
         return $this->hasMany(Category::class);
     }
 }

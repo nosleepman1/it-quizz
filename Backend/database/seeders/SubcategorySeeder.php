@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Seeder des sous‑catégories.
+ *
+ * Insère les sous‑catégories de base avec leurs slugs, description, icône et statut actif.
+ */
+
 namespace Database\Seeders;
 
 use App\Models\Subcategory;
