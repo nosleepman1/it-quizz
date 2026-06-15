@@ -23,7 +23,23 @@ class UpdateBadgeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['sometimes', 'nullable', 'string'],
+            'icon' => ['sometimes', 'nullable', 'string'],
+            'condition_type' => ['sometimes', 'required', 'string', 'max:100'],
+            'condition_value' => ['sometimes', 'required', 'string', 'max:255'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Le nom du badge est requis.',
+            'condition_type.required' => 'Le type de condition est requis.',
+            'condition_value.required' => 'La valeur de condition est requise.',
         ];
     }
 }

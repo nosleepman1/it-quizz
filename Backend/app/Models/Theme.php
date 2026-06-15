@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Theme extends Model
 {
     protected $fillable = [
+        'slug',
         'name',
         'description',
         'is_active',
@@ -15,7 +16,7 @@ class Theme extends Model
     ];
 
     public function categories(): HasMany
-    {
+    { // Remarque : le champ 'slug' a été ajouté et est unique
         return $this->hasMany(Category::class);
     }
 }
