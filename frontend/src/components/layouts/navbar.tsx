@@ -1,10 +1,11 @@
 import { useContext } from "react"
 import { Button } from "@/components/ui/button"
 import { AuthContext } from "@/context/AuthContext"
+import type { AuthContextType } from "@/types/auth"
 import { LogOut } from "lucide-react"
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useContext(AuthContext)
+  const { user, logout, isAuthenticated } = useContext(AuthContext) as AuthContextType
 
   if (!isAuthenticated) return null
 
