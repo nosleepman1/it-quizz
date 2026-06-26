@@ -1,6 +1,6 @@
 import { AuthContext } from "@/context/AuthContext"
 import { LOGIN } from "@/services/auth/login"
-import type { LoginError, LoginRequest, LoginResponse } from "@/types/auth"
+import type { LoginError, LoginRequest, LoginResponse, AuthContextType } from "@/types/auth"
 import  { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -11,7 +11,7 @@ const useLogin = ()  => {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<LoginError | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
-    const {login} = useContext(AuthContext)
+    const {login} = useContext(AuthContext) as AuthContextType
 
     const handleLogin = async (request: LoginRequest) => {
 
