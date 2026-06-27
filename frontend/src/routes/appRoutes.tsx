@@ -19,7 +19,6 @@ import SettingsScreen from "@/screens/SettingsScreen"
 const AppRoutes = () => {
     return (
         <Routes>
-            {/* Splash screen is public and acts as initial loader */}
             <Route path="/" element={<SplashScreen />} />
 
             {/* Protected gaming routes */}
