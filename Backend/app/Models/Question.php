@@ -27,4 +27,10 @@ class Question extends Model
     {
         return $this->hasMany(Choice::class);
     }
+
+    public function quiz()
+    {
+        return $this->belongsToMany(Quiz::class, 'quiz_questions')
+                    ->withTimestamps();
+    }
 }

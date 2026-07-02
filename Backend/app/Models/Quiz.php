@@ -33,4 +33,10 @@ class Quiz extends Model
     {
         return $this->hasOne(Score::class);
     }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'quiz_questions')
+            ->withTimestamps();
+    }   
 }

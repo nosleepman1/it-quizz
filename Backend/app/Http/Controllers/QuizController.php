@@ -68,5 +68,23 @@ class QuizController extends Controller
         $quiz->delete();
         return response()->json('Quiz deleted successfully', 200);
     }
+
+    public function quickPlay(Request $request){
+       $request->validate([
+        'theme_id' => 'required|exists:themes,id'
+       ]);
+       $quiz = $this->quizGeneratorService->generateQuickPlay(Auth::user(),$request->theme_id);
+       return response()->json($quiz, 200);
+    }
+
+    public function customPlay(Request $request){
+        $request->validate([
+            'topic_id' => 'required|exists:topics,id',
+            'number_of_question' => 'required|integer|min:1',
+        ]);
+        $quiz = $this->quizGeneratorService->generateCustom(Auth::user(),$request->topic_id,$request->number_of_question);
+        return response()->json($quiz, 200);
+    }
+
 }
 
