@@ -15,47 +15,26 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::insert([
-            [
-                'name' => 'Développement Web',
-                'theme_id' => 1,
-                'slug' => 'dev-web',
-                'description' => 'Tout sur le développement front et back',
-                'icon' => 'fa-solid fa-code',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Intelligence Artificielle',
-                'theme_id' => 2,
-                'slug' => 'ia',
-                'description' => 'Machine learning, deep learning, data science',
-                'icon' => 'fa-solid fa-robot',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Cybersécurité',
-                'theme_id' => 3,
-                'slug' => 'cybersecurite',
-                'description' => 'Sécurité des systèmes et réseaux',
-                'icon' => 'fa-solid fa-shield-alt',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'Cloud Computing',
-                'theme_id' => 4,
-                'slug' => 'cloud',
-                'description' => 'Infrastructure, services et déploiement cloud',
-                'icon' => 'fa-solid fa-cloud',
-                'is_active' => true,
-            ],
-            [
-                'name' => 'DevOps',
-                'theme_id' => 1,
-                'slug' => 'devops',
-                'description' => 'Intégration continue, déploiement et automatisation',
-                'icon' => 'fa-solid fa-gears',
-                'is_active' => true,
-            ],
-        ]);
+        $themes = \App\Models\Theme::all();
+        $categories = [
+            
+        ];
+
+        foreach ($themes as $theme) {
+            for ($i = 1; $i <= 5; $i++) {
+                $categories[] = [
+                    'name' => 'Catégorie ' . $i . ' - ' . $theme->name,
+                    'theme_id' => $theme->id,
+                    'slug' => \Illuminate\Support\Str::slug($theme->name . '-categorie-' . $i),
+                    'description' => 'Description pour la catégorie ' . $i . ' du thème ' . $theme->name,
+                    'icon' => 'fa-solid fa-folder',
+                    'is_active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
+        \App\Models\Category::insert($categories);
     }
 }

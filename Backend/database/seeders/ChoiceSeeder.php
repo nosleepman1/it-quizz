@@ -19,21 +19,35 @@ class ChoiceSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        foreach (Question::all() as $question) {
-            // Correct choice based on the question's answer field
-            Choice::create([
-                'question_id' => $question->id,
-                'choice'      => $question->answer,
-                'is_correct'  => true,
-            ]);
-            // Three incorrect choices
-            for ($i = 0; $i < 3; $i++) {
-                Choice::create([
+        
+        Question::select('id', 'answer')->chunk(1000, function ($questions) use ($faker) {
+            $choices = [];
+
+            foreach ($questions as $question) {
+                // Correct choice
+                $choices[] = [
                     'question_id' => $question->id,
-                    'choice'      => $faker->sentence(5),
-                    'is_correct'  => false,
-                ]);
+                    'choice' => $question->answer,
+                    'is_correct' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+
+                // Three incorrect choices
+                for ($i = 0; $i < 3; $i++) {
+                    $choices[] = [
+                        'question_id' => $question->id,
+                        'choice' => 'Fausse réponse ' . ($i + 1) . ' : ' . $faker->sentence(3),
+                        'is_correct' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
-        }
+
+            foreach (array_chunk($choices, 1000) as $chunk) {
+                Choice::insert($chunk);
+            }
+        });
     }
 }

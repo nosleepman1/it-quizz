@@ -20,39 +20,27 @@ class QuestionSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        foreach (Subcategory::all() as $subcategory) {
-            $topics = $subcategory->topics;
-            if ($topics->isEmpty()) {
-                continue;
+        $topics = Topic::all();
+        $questions = [];
+
+        foreach ($topics as $topic) {
+            for ($i = 1; $i <= 10; $i++) {
+                $questions[] = [
+                    'topic_id' => $topic->id,
+                    'question' => 'Question ' . $i . ' sur ' . $topic->name . ' : ' . $faker->sentence(6),
+                    'answer' => 'Réponse pour la question ' . $i,
+                    'difficulty' => $faker->randomElement(['facile', 'moyen', 'difficile']),
+                    'type' => 'QCM',
+                    'score' => $faker->numberBetween(1, 10),
+                    'is_active' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
             }
-            // pick a random topic from the subcategory for each question
-            for ($i = 1; $i <= 140; $i++) {
-                $topic = $topics->random();
+        }
 
-                // Génère une question générique (texte aléatoire)
-                $questionText = $faker->sentence(8);
-                $answerText   = $faker->sentence(5);
-
-                // Détermine la difficulté en fonction du sous‑groupe (conceptuel)
-                $subName = strtolower($subcategory->name);
-                if (in_array($subName, ['html', 'css'])) {
-                    $difficulty = 'facile'; // notions de base
-                } elseif (in_array($subName, ['javascript', 'laravel'])) {
-                    $difficulty = 'moyen'; // niveau intermédiaire
-                } else {
-                    $difficulty = 'difficile'; // sujets avancés
-                }
-
-                Question::create([
-                    'topic_id'   => $topic->id,
-                    'question'   => $questionText,
-                    'answer'     => $answerText,
-                    'difficulty' => $difficulty,
-                    'type'       => 'QCM',
-                    'score'      => $faker->numberBetween(1, 10),
-                    'is_active'  => true,
-                ]);
-            }
+        foreach (array_chunk($questions, 1000) as $chunk) {
+            Question::insert($chunk);
         }
     }
 }
