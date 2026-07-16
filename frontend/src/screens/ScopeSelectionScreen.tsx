@@ -133,8 +133,16 @@ const ScopeSelectionScreen = () => {
   const activeItems = getActiveList();
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-4 pt-6 pb-8 flex flex-col justify-between overflow-x-hidden">
-      <div>
+    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-6 pt-8 pb-8 flex flex-col justify-between overflow-x-hidden font-sans">
+      {/* Grid backdrop */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.02]" 
+           style={{ 
+               backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)', 
+               backgroundSize: '24px 24px' 
+           }} 
+      />
+
+      <div className="z-10">
         {/* Header */}
         <header className="flex items-center justify-between mb-4">
           <button 
@@ -146,18 +154,18 @@ const ScopeSelectionScreen = () => {
                 handleBreadcrumbClick(breadcrumbs.length - 1);
               }
             }}
-            className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-game-muted hover:text-game-text transition-colors"
+            className="w-9 h-9 rounded-lg bg-game-input border border-game-border flex items-center justify-center text-game-muted hover:text-game-text hover:bg-white/10 active:scale-95 transition-all duration-300 cursor-pointer"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4.5 h-4.5" />
           </button>
-          <span className="text-xs uppercase font-bold tracking-widest text-game-muted">
+          <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted">
             Choix du Scope
           </span>
-          <div className="w-10" />
+          <div className="w-9" />
         </header>
 
         {/* Horizontal Scrollable Breadcrumb */}
-        <div className="w-full flex items-center gap-1.5 overflow-x-auto no-scrollbar py-2.5 mb-5 border-b border-white/5 whitespace-nowrap">
+        <div className="w-full flex items-center gap-1.5 overflow-x-auto no-scrollbar py-2.5 mb-5 border-b border-game-border whitespace-nowrap">
           <button
             onClick={() => {
               setDirection('backward');
@@ -167,8 +175,10 @@ const ScopeSelectionScreen = () => {
               setSelectedCategory(null);
               setSelectedSubcategory(null);
             }}
-            className={`text-xs font-semibold px-2 py-0.5 rounded-md ${
-              level === 'theme' ? 'text-game-secondary bg-game-secondary/10' : 'text-game-muted hover:text-game-text'
+            className={`text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border transition-all ${
+              level === 'theme' 
+                ? 'text-game-primary bg-game-primary/10 border-game-primary/20' 
+                : 'text-game-muted hover:text-game-text border-transparent'
             }`}
           >
             Scope
@@ -178,11 +188,13 @@ const ScopeSelectionScreen = () => {
             const isLast = idx === breadcrumbs.length - 1 && level === crumb.level;
             return (
               <div key={crumb.id} className="flex items-center gap-1.5 shrink-0">
-                <ChevronRight className="w-3.5 h-3.5 text-white/20" />
+                <ChevronRight className="w-3 h-3 text-white/20" />
                 <button
                   onClick={() => handleBreadcrumbClick(idx)}
-                  className={`text-xs font-semibold px-2 py-0.5 rounded-md truncate max-w-[80px] ${
-                    isLast ? 'text-game-secondary bg-game-secondary/10' : 'text-game-muted hover:text-game-text'
+                  className={`text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded border truncate max-w-[80px] transition-all ${
+                    isLast 
+                      ? 'text-game-primary bg-game-primary/10 border-game-primary/20' 
+                      : 'text-game-muted hover:text-game-text border-transparent'
                   }`}
                 >
                   {crumb.label}
@@ -209,17 +221,17 @@ const ScopeSelectionScreen = () => {
                 return (
                   <div
                     key={item.id}
-                    className="game-glass-card rounded-2xl p-4 flex items-center justify-between border border-white/5"
+                    className="bg-game-card rounded-xl p-4 flex items-center justify-between border border-game-border shadow-md"
                   >
                     <div className="flex items-center gap-3.5 mr-2 overflow-hidden">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-game-secondary shrink-0">
-                        <ItemIcon className="w-5 h-5 text-game-secondary" />
+                      <div className="w-8 h-8 rounded-lg bg-game-input border border-game-border flex items-center justify-center text-game-primary shrink-0">
+                        <ItemIcon className="w-4.5 h-4.5" />
                       </div>
                       <div className="overflow-hidden">
-                        <h4 className="text-sm font-bold text-game-text truncate leading-tight">
+                        <h4 className="text-[10px] font-bold text-game-text truncate leading-tight uppercase tracking-wide">
                           {item.name}
                         </h4>
-                        <p className="text-[10px] text-game-muted leading-tight truncate mt-0.5">
+                        <p className="text-[9px] text-game-muted leading-relaxed truncate mt-0.5 font-medium">
                           {item.description || 'Jouez ou explorez ce niveau'}
                         </p>
                       </div>
@@ -227,13 +239,15 @@ const ScopeSelectionScreen = () => {
 
                     {/* CTAs */}
                     <div className="flex items-center gap-2 shrink-0">
-                      <button
+                      <motion.button
+                        whileHover={{ scale: 1.005 }}
+                        whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlayHere(item.id, item.name, level)}
-                        className="h-9 px-3.5 bg-game-primary/20 hover:bg-game-primary text-game-primary hover:text-game-text border border-game-primary/30 rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center gap-1 transition-all cursor-pointer"
+                        className="h-8 px-3.5 bg-game-primary/10 hover:bg-game-primary text-game-primary hover:text-game-bg border border-game-primary/20 rounded-lg text-[8px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all duration-300 cursor-pointer"
                       >
-                        <Play className="w-3 h-3 fill-current" />
+                        <Play className="w-2.5 h-2.5 fill-current" />
                         Jouer
-                      </button>
+                      </motion.button>
                       
                       {level !== 'topic' && (
                         <button
@@ -242,7 +256,7 @@ const ScopeSelectionScreen = () => {
                             else if (level === 'category') handleExploreCategory(item);
                             else if (level === 'subcategory') handleExploreSubcategory(item);
                           }}
-                          className="w-9 h-9 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-game-muted hover:text-game-text transition-all cursor-pointer"
+                          className="w-8 h-8 bg-game-input hover:bg-white/10 border border-game-border rounded-lg flex items-center justify-center text-game-muted hover:text-game-text transition-all duration-300 cursor-pointer"
                           aria-label="Explorer le niveau inférieur"
                         >
                           <ArrowRight className="w-4 h-4" />
@@ -255,9 +269,9 @@ const ScopeSelectionScreen = () => {
 
               {activeItems.length === 0 && (
                 <div className="flex flex-col items-center justify-center text-center py-16 px-4">
-                  <Compass className="w-12 h-12 text-game-muted mb-4 opacity-50" />
-                  <p className="text-sm font-bold text-game-muted">Vide</p>
-                  <p className="text-xs text-game-muted/65 mt-1">
+                  <Compass className="w-10 h-10 text-game-muted mb-4 opacity-30 animate-pulse" />
+                  <p className="text-xs font-bold text-game-muted">Vide</p>
+                  <p className="text-[10px] text-game-muted/50 mt-1 font-medium">
                     Aucun élément disponible dans cette section.
                   </p>
                 </div>
