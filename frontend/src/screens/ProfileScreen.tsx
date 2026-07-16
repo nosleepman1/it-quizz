@@ -19,13 +19,13 @@ const ProfileScreen = () => {
     }
   };
 
-  const displayName = user ? `${user.firstname} ${user.lastname}` : 'Développeur';
+  const displayName = user ? (user.username || user.name || 'Développeur') : 'Développeur';
   const displayEmail = user ? user.email : 'dev@domain.com';
 
   const badges = [
-    { name: 'Cadet React', icon: Terminal, desc: 'A complété un quiz React', unlocked: true, color: 'text-violet-400 bg-violet-500/10 border-violet-500/20' },
-    { name: 'ACID Survivor', icon: ShieldCheck, desc: 'Survécu à PostgreSQL', unlocked: true, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-    { name: 'Streak Master', icon: FlameKindling, desc: '5 jours d\'affilée', unlocked: true, color: 'text-amber-400 bg-amber-500/10 border-amber-500/20' },
+    { name: 'Cadet React', icon: Terminal, desc: 'A complété un quiz React', unlocked: true, color: 'text-game-primary bg-game-primary/10 border-game-primary/20' },
+    { name: 'ACID Survivor', icon: ShieldCheck, desc: 'Survécu à PostgreSQL', unlocked: true, color: 'text-game-success bg-game-success/10 border-game-success/20' },
+    { name: 'Streak Master', icon: FlameKindling, desc: '5 jours d\'affilée', unlocked: true, color: 'text-game-warning bg-game-warning/10 border-game-warning/20' },
     { name: 'Flash Champion', icon: Zap, desc: 'Quiz Flash sans faute', unlocked: false, color: 'text-white/20 bg-white/5 border-white/5' }
   ];
 
@@ -36,77 +36,85 @@ const ProfileScreen = () => {
   ];
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-4 pt-6 pb-28 flex flex-col justify-between">
-      <div>
+    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-6 pt-8 pb-28 flex flex-col justify-between font-sans">
+      {/* Grid backdrop */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.02]" 
+           style={{ 
+               backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)', 
+               backgroundSize: '24px 24px' 
+           }} 
+      />
+
+      <div className="z-10">
         {/* Header */}
         <header className="mb-6 flex justify-between items-center">
           <div>
-            <span className="text-[10px] uppercase font-black tracking-widest text-game-muted">
+            <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted">
               Profil du Joueur
             </span>
-            <h1 className="text-2xl font-black uppercase tracking-tight mt-1 text-game-text">
+            <h1 className="text-xl font-bold uppercase tracking-wider mt-1 text-game-text">
               Mon Espace
             </h1>
           </div>
           <button
             onClick={handleLogout}
-            className="w-10 h-10 rounded-xl bg-game-error/15 border border-game-error/20 flex items-center justify-center text-game-error hover:bg-game-error hover:text-game-text transition-all cursor-pointer"
+            className="w-9 h-9 rounded-lg bg-game-error/15 border border-game-error/20 flex items-center justify-center text-game-error hover:bg-game-error hover:text-game-text transition-all duration-300 cursor-pointer"
             title="Se déconnecter"
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-4 h-4" />
           </button>
         </header>
 
         {/* User Card */}
-        <section className="game-glass-card rounded-3xl p-5 mb-6 flex items-center gap-4 border border-white/5 neon-glow-primary border-game-primary/20">
-          <div className="w-14 h-14 rounded-2xl bg-game-primary/20 border border-game-primary/40 flex items-center justify-center text-game-primary shrink-0">
-            <User className="w-7 h-7 text-game-text" />
+        <section className="bg-game-card rounded-xl p-5 mb-5 flex items-center gap-4 border border-game-border shadow-md">
+          <div className="w-12 h-12 rounded-lg bg-game-primary/10 border border-game-primary/20 flex items-center justify-center text-game-primary shrink-0">
+            <User className="w-5 h-5 text-game-text" />
           </div>
           <div className="overflow-hidden">
-            <h3 className="text-base font-black text-game-text truncate">{displayName}</h3>
-            <p className="text-xs text-game-muted truncate">{displayEmail}</p>
-            <span className="text-[9px] uppercase font-bold px-2 py-0.5 bg-game-secondary/10 border border-game-secondary/20 rounded-md text-game-secondary mt-1.5 inline-block">
+            <h3 className="text-sm font-bold text-game-text truncate uppercase tracking-wide">{displayName}</h3>
+            <p className="text-[10px] text-game-muted truncate font-medium mt-0.5">{displayEmail}</p>
+            <span className="text-[8px] uppercase font-bold tracking-wider px-2 py-0.5 bg-game-primary/10 border border-game-primary/20 rounded text-game-primary mt-2 inline-block">
               Niveau 4 • Senior Dev
             </span>
           </div>
         </section>
 
         {/* Statistics Grid */}
-        <section className="grid grid-cols-2 gap-3 mb-6">
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center gap-3">
-            <Flame className="w-6 h-6 text-amber-500" />
+        <section className="grid grid-cols-2 gap-3.5 mb-5">
+          <div className="bg-game-card border border-game-border rounded-xl p-4 flex items-center gap-3 shadow-sm">
+            <Flame className="w-5 h-5 text-game-primary/80" />
             <div>
-              <p className="text-[8px] uppercase font-bold text-game-muted">Streak Actif</p>
-              <h4 className="text-base font-mono font-black text-game-text leading-tight">5 Jours</h4>
+              <p className="text-[8px] uppercase font-bold tracking-wider text-game-muted">Streak Actif</p>
+              <h4 className="text-sm font-mono font-bold text-game-text leading-tight mt-0.5">5 Jours</h4>
             </div>
           </div>
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center gap-3">
-            <Star className="w-6 h-6 text-game-secondary" />
+          <div className="bg-game-card border border-game-border rounded-xl p-4 flex items-center gap-3 shadow-sm">
+            <Star className="w-5 h-5 text-game-success/80" />
             <div>
-              <p className="text-[8px] uppercase font-bold text-game-muted">Précision Moy.</p>
-              <h4 className="text-base font-mono font-black text-game-text leading-tight">78%</h4>
+              <p className="text-[8px] uppercase font-bold tracking-wider text-game-muted">Précision Moy.</p>
+              <h4 className="text-sm font-mono font-bold text-game-text leading-tight mt-0.5">78%</h4>
             </div>
           </div>
         </section>
 
         {/* Badges Section */}
-        <section className="mb-6">
-          <h3 className="text-xs uppercase font-bold tracking-widest text-game-muted mb-3.5 flex items-center gap-2">
-            <Award className="w-4.5 h-4.5 text-game-primary" />
+        <section className="mb-5">
+          <h3 className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted mb-3.5 flex items-center gap-2 pl-0.5">
+            <Award className="w-4 h-4 text-game-primary/80" />
             Badges Débloqués
           </h3>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3.5">
             {badges.map((badge) => {
               const BadgeIcon = badge.icon;
               return (
                 <div
                   key={badge.name}
-                  className={`rounded-2xl p-3.5 border flex flex-col items-start ${badge.color} transition-all`}
+                  className={`rounded-xl p-3.5 border flex flex-col items-start shadow-sm ${badge.color} transition-all`}
                 >
-                  <BadgeIcon className="w-6 h-6 mb-2.5" />
-                  <h4 className="text-xs font-black text-game-text leading-none">{badge.name}</h4>
-                  <p className="text-[9px] text-game-muted mt-1 leading-tight">{badge.desc}</p>
+                  <BadgeIcon className="w-5 h-5 mb-2.5" />
+                  <h4 className="text-[10px] font-bold text-game-text leading-none uppercase tracking-wide">{badge.name}</h4>
+                  <p className="text-[9px] text-game-muted mt-1 leading-relaxed font-medium">{badge.desc}</p>
                 </div>
               );
             })}
@@ -115,8 +123,8 @@ const ProfileScreen = () => {
 
         {/* Recent Activity */}
         <section>
-          <h3 className="text-xs uppercase font-bold tracking-widest text-game-muted mb-3.5 flex items-center gap-2">
-            <Calendar className="w-4.5 h-4.5 text-game-secondary" />
+          <h3 className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted mb-3.5 flex items-center gap-2 pl-0.5">
+            <Calendar className="w-4 h-4 text-game-primary/80" />
             Activités Récentes
           </h3>
 
@@ -124,15 +132,15 @@ const ProfileScreen = () => {
             {recentGames.map((game) => (
               <div
                 key={game.id}
-                className="bg-white/5 border border-white/5 rounded-2xl p-3 flex justify-between items-center"
+                className="bg-game-card border border-game-border rounded-xl p-3.5 flex justify-between items-center shadow-sm"
               >
                 <div>
-                  <h4 className="text-xs font-black text-game-text leading-tight">{game.topic}</h4>
-                  <p className="text-[9px] text-game-muted mt-0.5">{game.mode} • {game.date}</p>
+                  <h4 className="text-[10px] font-bold text-game-text leading-tight uppercase tracking-wide">{game.topic}</h4>
+                  <p className="text-[9px] text-game-muted mt-1 font-medium">{game.mode} • {game.date}</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-mono font-black text-game-secondary">{game.score}</span>
-                  <p className="text-[8px] uppercase font-bold text-game-muted">Score</p>
+                  <span className="text-[10px] font-mono font-bold text-game-primary">{game.score}</span>
+                  <p className="text-[8px] uppercase font-bold tracking-wider text-game-muted mt-0.5">Score</p>
                 </div>
               </div>
             ))}

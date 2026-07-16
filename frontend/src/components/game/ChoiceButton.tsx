@@ -22,31 +22,31 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
   const prefix = letters[index] || '?';
 
   // Determine classes based on response status
-  let borderClass = 'border-white/10 hover:border-game-primary/50 bg-white/5';
+  let borderClass = 'border-game-border bg-game-card hover:border-game-primary/30 hover:bg-game-input';
   let textClass = 'text-game-text';
-  let prefixBg = 'bg-white/10 text-game-muted';
+  let prefixBg = 'bg-game-input text-game-muted border border-game-border';
   let glowClass = '';
 
   if (correct === true) {
-    borderClass = 'border-game-success bg-game-success/15';
+    borderClass = 'border-game-success/40 bg-game-success/5';
     textClass = 'text-game-success font-semibold';
-    prefixBg = 'bg-game-success text-game-bg';
-    glowClass = 'shadow-[0_0_15px_rgba(34,197,94,0.3)]';
+    prefixBg = 'bg-game-success/10 text-game-success border border-game-success/20';
+    glowClass = 'shadow-[0_2px_12px_rgba(16,185,129,0.06)]';
   } else if (correct === false && selected) {
-    borderClass = 'border-game-error bg-game-error/15';
+    borderClass = 'border-game-error/40 bg-game-error/5';
     textClass = 'text-game-error font-semibold';
-    prefixBg = 'bg-game-error text-game-bg';
-    glowClass = 'shadow-[0_0_15px_rgba(239,68,68,0.3)]';
+    prefixBg = 'bg-game-error/10 text-game-error border border-game-error/20';
+    glowClass = 'shadow-[0_2px_12px_rgba(225,29,72,0.06)]';
   } else if (selected) {
-    borderClass = 'border-game-primary bg-game-primary/20';
-    prefixBg = 'bg-game-primary text-game-text';
-    glowClass = 'shadow-[0_0_15px_rgba(124,58,237,0.3)]';
+    borderClass = 'border-game-primary bg-game-primary/5';
+    prefixBg = 'bg-game-primary/25 text-game-primary border border-game-primary/35';
+    glowClass = 'shadow-[0_2px_12px_rgba(197,168,128,0.06)]';
   }
 
   // Shake animation for incorrect answer
   const shakeAnimation = correct === false && selected ? {
-    x: [0, -10, 10, -10, 10, 0],
-    transition: { duration: 0.4 }
+    x: [0, -6, 6, -6, 6, 0],
+    transition: { duration: 0.35 }
   } : {};
 
   return (
@@ -55,14 +55,14 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
       animate={shakeAnimation}
-      whileTap={{ scale: disabled ? 1 : 0.97 }}
-      className={`relative w-full min-h-[58px] py-3.5 px-4 rounded-2xl flex items-center text-left border transition-all duration-200 cursor-pointer focus:outline-none ${borderClass} ${glowClass}`}
+      whileTap={{ scale: disabled ? 1 : 0.99 }}
+      className={`relative w-full min-h-[54px] py-3 px-4 rounded-xl flex items-center text-left border transition-all duration-300 cursor-pointer focus:outline-none ${borderClass} ${glowClass}`}
     >
-      <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono font-bold mr-3.5 shrink-0 transition-colors duration-200 ${prefixBg}`}>
-        {correct === true && selected ? <Check className="w-4 h-4" /> : 
-         correct === false && selected ? <X className="w-4 h-4" /> : prefix}
+      <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-[10px] font-bold mr-3.5 shrink-0 transition-all duration-300 ${prefixBg}`}>
+        {correct === true && selected ? <Check className="w-3.5 h-3.5" /> : 
+         correct === false && selected ? <X className="w-3.5 h-3.5" /> : prefix}
       </div>
-      <span className={`text-[15px] font-medium leading-tight select-none ${textClass}`}>
+      <span className={`text-xs font-medium leading-relaxed select-none ${textClass}`}>
         {text}
       </span>
     </motion.button>

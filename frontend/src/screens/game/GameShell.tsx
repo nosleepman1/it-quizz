@@ -150,18 +150,18 @@ const GameShell = () => {
   const activePlayer = players.find(p => p.id === session.activePlayerId) || players[0];
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-4 pt-6 pb-8 flex flex-col justify-between">
+    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-6 pt-8 pb-8 flex flex-col justify-between select-none font-sans">
       {/* Game Layout Headers */}
       <div>
-        <header className="flex items-center justify-between mb-4">
+        <header className="flex items-center justify-between mb-5">
           <button 
             onClick={() => setShowExitDialog(true)}
-            className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-game-muted hover:text-game-text transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-game-muted hover:text-game-text hover:bg-white/10 active:scale-95 transition-all duration-300 cursor-pointer"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4.5 h-4.5" />
           </button>
           
-          <span className="text-[10px] font-black uppercase tracking-widest text-game-muted px-3 py-1 bg-white/5 border border-white/5 rounded-full">
+          <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-game-muted px-3 py-1 bg-white/5 border border-white/5 rounded-full">
             Question {currentIndex + 1} / {questions.length}
           </span>
 
@@ -170,23 +170,23 @@ const GameShell = () => {
               <LifeBar lives={survivalLivesRemaining ?? 3} />
             )}
             {selectedMode === 'twelve_hits' && (
-              <div className="flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 py-1.5 px-3 rounded-full text-emerald-400 font-bold text-[10px]">
-                <Sparkles className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-1.5 bg-game-success/10 border border-game-success/20 py-1 px-3 rounded-full text-game-success font-bold text-[8px] uppercase tracking-wider">
+                <Sparkles className="w-3 h-3" />
                 <span>{twelveHitsCorrect ?? 0} / 12 Coups</span>
               </div>
             )}
             {selectedMode === 'flash' && (
-              <div className="text-[10px] font-black uppercase tracking-wider text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20">
+              <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-game-warning bg-game-warning/10 px-3.5 py-1 rounded-full border border-game-warning/20">
                 Flash
               </div>
             )}
             {selectedMode === 'classic' && (
-              <div className="text-[10px] font-black uppercase tracking-wider text-violet-400 bg-violet-500/10 px-3 py-1 rounded-full border border-violet-500/20">
+              <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-game-primary bg-game-primary/10 px-3.5 py-1 rounded-full border border-game-primary/20">
                 Classic
               </div>
             )}
             {selectedMode === 'genius' && (
-              <div className="text-[10px] font-black uppercase tracking-wider text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+              <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-game-primary bg-game-primary/10 px-3.5 py-1 rounded-full border border-game-primary/20">
                 Génie
               </div>
             )}
@@ -195,17 +195,17 @@ const GameShell = () => {
 
         {/* 12 Hits Grid tracker bar */}
         {selectedMode === 'twelve_hits' && (
-          <div className="grid grid-cols-12 gap-1.5 mb-4">
+          <div className="grid grid-cols-12 gap-1.5 mb-5">
             {Array.from({ length: 12 }).map((_, idx) => {
               const currentScore = twelveHitsCorrect ?? 0;
               const isFilled = idx < currentScore;
               return (
                 <div 
                   key={idx} 
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
                     isFilled 
-                      ? 'bg-emerald-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' 
-                      : 'bg-white/10'
+                      ? 'bg-game-success shadow-[0_0_8px_rgba(16,185,129,0.3)]' 
+                      : 'bg-white/5 border border-white/5'
                   }`}
                 />
               );
@@ -215,56 +215,62 @@ const GameShell = () => {
 
         {/* Multiplayer Player Rotation Display */}
         {selectedMode === 'genius' && activePlayer && (
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
+          <div className="bg-game-card border border-white/5 rounded-2xl p-4 flex items-center justify-between mb-5">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-game-primary/10 border border-game-primary/20 flex items-center justify-center text-game-primary">
                 <User className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-[8px] uppercase font-bold text-game-muted">C'est au tour de</p>
-                <h4 className="text-xs font-black text-game-text leading-tight">{activePlayer.name}</h4>
+                <p className="text-[8px] uppercase font-bold tracking-[0.25em] text-game-muted">Tour Actuel</p>
+                <h4 className="text-xs font-bold text-game-text leading-tight">{activePlayer.name}</h4>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-[8px] uppercase font-bold text-game-muted">Score</p>
-              <h4 className="text-xs font-mono font-black text-amber-400">{activePlayer.score} pts</h4>
+              <p className="text-[8px] uppercase font-bold tracking-[0.25em] text-game-muted">Score</p>
+              <h4 className="text-xs font-mono font-bold text-game-primary">{activePlayer.score} pts</h4>
             </div>
           </div>
         )}
 
         {/* Active flash mode timer ring */}
         {selectedMode === 'flash' && !isAnswered && (
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-5 mt-3">
             <TimerRing duration={gameConfig.timePerQuestion || 15} timeLeft={timerTimeLeft} />
           </div>
         )}
 
         {/* Question Panel */}
         {currentQuestion && (
-          <div className="relative game-glass-card rounded-3xl p-5 mb-5 border border-white/5 mt-2">
-            <div className="flex items-center gap-2 mb-3">
-              <span className={`text-[8px] uppercase font-black tracking-widest px-2 py-0.5 border rounded-md ${getDifficultyColor(currentQuestion.difficulty)}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            key={`q-${currentIndex}`}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="relative bg-game-card rounded-2xl p-6 mb-5 border border-white/5 mt-4 min-h-[140px] flex flex-col justify-center shadow-[0_8px_25px_rgba(0,0,0,0.3)]"
+          >
+            <div className="flex items-center gap-2 mb-3.5">
+              <span className={`text-[7px] uppercase font-bold tracking-widest px-2 py-0.5 border rounded ${getDifficultyColor(currentQuestion.difficulty)}`}>
                 {currentQuestion.difficulty}
               </span>
             </div>
             
-            <h3 className="text-sm font-bold text-game-text leading-relaxed">
+            <h3 className="text-xs font-bold text-game-text leading-relaxed tracking-wide">
               {currentQuestion.question}
             </h3>
 
             {/* Time-out visual notifier */}
             {selectedMode === 'flash' && selectedChoiceId === -1 && (
-              <div className="absolute inset-0 bg-game-error/15 backdrop-blur-[2px] rounded-3xl flex flex-col items-center justify-center text-game-error animate-pulse border border-game-error/30">
-                <XCircle className="w-10 h-10 mb-1" />
-                <span className="text-xs uppercase font-black tracking-widest">Temps Écoulé !</span>
+              <div className="absolute inset-0 bg-game-error/5 backdrop-blur-[1px] rounded-2xl flex flex-col items-center justify-center text-game-error animate-pulse border border-game-error/25 z-20">
+                <XCircle className="w-8 h-8 mb-1.5" />
+                <span className="text-[8px] uppercase font-bold tracking-[0.30em]">Temps Écoulé</span>
               </div>
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Choice Grid */}
         {currentQuestion && (
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {currentQuestion.responses.map((choice, idx) => {
               const isSelected = selectedChoiceId === choice.id;
               
@@ -279,15 +285,21 @@ const GameShell = () => {
               }
 
               return (
-                <ChoiceButton
+                <motion.div
                   key={choice.id}
-                  text={choice.response}
-                  index={idx}
-                  selected={isSelected}
-                  correct={correctStatus}
-                  disabled={isAnswered}
-                  onClick={() => handleChoiceSelect(choice.id)}
-                />
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <ChoiceButton
+                    text={choice.response}
+                    index={idx}
+                    selected={isSelected}
+                    correct={correctStatus}
+                    disabled={isAnswered}
+                    onClick={() => handleChoiceSelect(choice.id)}
+                  />
+                </motion.div>
               );
             })}
           </div>
@@ -300,17 +312,18 @@ const GameShell = () => {
           <AnimatePresence mode="wait">
             {isAnswered ? (
               <motion.button
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 onClick={handleProceedNext}
-                className="w-full py-4 bg-gradient-to-r from-game-primary to-game-secondary rounded-2xl text-xs font-black uppercase tracking-wider text-game-text flex items-center justify-center gap-1.5 shadow-[0_4px_20px_rgba(124,58,237,0.3)] cursor-pointer"
+                className="w-full py-3.5 bg-game-primary text-game-bg rounded-xl text-[9px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_4px_12px_rgba(197,168,128,0.15)] hover:bg-[#DBC19D] transition-all duration-300"
               >
                 Question Suivante
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </motion.button>
             ) : (
-              <div className="h-14" /> // placeholder spacer to prevent visual layout shifts
+              <div className="h-12" /> // placeholder spacer to prevent visual layout shifts
             )}
           </AnimatePresence>
         </div>
@@ -318,27 +331,27 @@ const GameShell = () => {
 
       {/* Quitting confirmation modal */}
       <Dialog open={showExitDialog} onOpenChange={setShowExitDialog}>
-        <DialogContent showCloseButton={false} className="w-[92%] max-w-sm rounded-3xl bg-game-card border border-white/5 text-game-text">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
-              <HelpCircle className="w-5 h-5 text-game-primary" />
+        <DialogContent showCloseButton={false} className="w-[90%] max-w-sm rounded-2xl bg-game-card border border-white/5 text-game-text p-6 shadow-2xl">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-sm font-bold uppercase tracking-[0.15em] flex items-center gap-2 mb-2 text-game-text">
+              <HelpCircle className="w-4.5 h-4.5 text-game-primary" />
               Quitter la Partie ?
             </DialogTitle>
-            <DialogDescription className="text-xs text-game-muted leading-relaxed">
+            <DialogDescription className="text-[10px] text-game-muted leading-relaxed font-medium">
               Attention, votre progression sur ce quiz sera définitivement perdue. Êtes-vous sûr de vouloir abandonner ?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="mt-4 flex gap-2">
+          <DialogFooter className="mt-6 flex flex-row gap-3">
             <DialogClose asChild>
-              <button className="rounded-xl border border-white/5 text-xs font-bold bg-white/5 hover:bg-white/10 py-3.5 flex-1 cursor-pointer">
+              <button className="rounded-xl border border-white/5 text-[9px] font-bold uppercase tracking-wider bg-white/5 hover:bg-white/10 py-3.5 flex-1 transition-all duration-300 cursor-pointer">
                 Annuler
               </button>
             </DialogClose>
             <button 
               onClick={handleQuitGame}
-              className="rounded-xl bg-game-error hover:bg-game-error/85 text-xs font-black uppercase tracking-wider py-3.5 flex-1 flex items-center justify-center gap-1.5 cursor-pointer"
+              className="rounded-xl bg-game-error hover:bg-game-error/90 text-game-text text-[9px] font-bold uppercase tracking-wider py-3.5 flex-1 flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-3.5 h-3.5" />
               Abandonner
             </button>
           </DialogFooter>

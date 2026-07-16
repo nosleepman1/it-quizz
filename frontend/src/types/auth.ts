@@ -25,23 +25,17 @@ export interface RegisterResponse {
 }
 
 export interface RegisterRequest {
+    username: string
     email: string
     password: string
-    firstname: string
-    lastname: string
-    phone: string
+    password_confirmation: string
 }
 
 export interface RegisterError {
     message: string
-    errors: {
-        firstname?: string[]
-        lastname?: string[]
+    errors?: {
+        username?: string[]
         email?: string[]
-        matricule?: string[]
-        phone?: string[]
-        grade?: string[]
-        filiere?: string[]
         password?: string[]
     }
 }
@@ -53,6 +47,7 @@ export interface User {
     matricule?: string
     firstname?: string
     lastname?: string
+    username?: string
     email: string
     grade?: string
     filiere?: string
