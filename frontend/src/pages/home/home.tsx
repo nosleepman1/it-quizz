@@ -2,10 +2,11 @@ import { useContext } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AuthContext } from "@/context/AuthContext"
+import type { AuthContextType } from "@/types/auth"
 import { LogOut } from "lucide-react"
 
 const Home = () => {
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout } = useContext(AuthContext) as AuthContextType
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">

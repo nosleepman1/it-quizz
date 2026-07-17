@@ -1,13 +1,11 @@
-import Navbar from "./components/layouts/navbar"
 import AppRoutes from "./routes/appRoutes"
 import { Toaster } from "@/components/ui/sonner"
 
-
 const App = () => {
   return (
-    <main className="min-h-screen bg-muted/30">
-      <Navbar />
-      <div className="flex justify-center items-center min-h-screen   mx-auto px-4 sm:px-1 lg:px-3">
+    <main className="min-h-screen bg-[#07070a] flex items-center justify-center md:py-8">
+      {/* Immersive mobile container wrapper on desktop, full-screen on mobile */}
+      <div className="w-full min-h-screen md:min-h-[812px] md:max-w-[375px] md:h-[812px] md:rounded-[36px] md:border-[8px] md:border-white/5 md:shadow-2xl md:relative md:overflow-hidden bg-game-bg">
         <AppRoutes />
       </div>
       <Toaster position="bottom-right" richColors />
@@ -15,4 +13,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App
