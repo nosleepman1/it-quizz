@@ -16,14 +16,23 @@ use App\Http\Controllers\UserProgressController;
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
+// Public API Authentication routes
 Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [RegisteredUserController::class, 'store']);
+
+// Protected API routes
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-    // Custom route for completing quiz
+    // Custom routes for quiz execution
+    Route::post('quizzes/quick-play', [QuizController::class, 'quickPlay']);
+    Route::post('quizzes/custom-play', [QuizController::class, 'customPlay']);
     Route::post('quizzes/{quiz}/complete', [QuizController::class, 'complete']);
 
     // Resource routes
@@ -40,4 +49,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('badges', BadgeController::class);
     Route::apiResource('users', UserController::class);
 });
-

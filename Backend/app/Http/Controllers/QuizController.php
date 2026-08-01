@@ -7,11 +7,17 @@ use App\Http\Resources\QuizResource;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 use App\Events\QuizCompleted;
+use App\Services\QuizGeneratorService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Exception;
 
 class QuizController extends Controller
 {
+    public function __construct(private QuizGeneratorService $quizGeneratorService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +32,7 @@ class QuizController extends Controller
      */
     public function store(StoreQuizRequest $request)
     {
-        $quiz = Quiz::create([...$request->validated(), 'user_id' => auth()->id(), 'status' => 'pending']);
+        $quiz = Quiz::create([...$request->validated(), 'user_id' => auth()->id(), 'status' => 'inachevé']);
         return new QuizResource($quiz);
     }
 
@@ -35,6 +41,7 @@ class QuizController extends Controller
      */
     public function show(Quiz $quiz)
     {
+        $quiz->load('questions.choices');
         return new QuizResource($quiz);
     }
 
@@ -49,15 +56,15 @@ class QuizController extends Controller
 
     public function complete(Request $request, Quiz $quiz)
     {
-        $quiz->update(['status' => 'completed']);
+        $quiz->update(['status' => 'complété']);
         
-        //declancher levenement score plus badge plus leaderboard
+        // Déclencher l'événement score, badges et leaderboard
         event(new QuizCompleted(
             quiz: $quiz,
             user: Auth::user(),
             reponse: $request->reponses ?? [],
         ));
-        return response()->json('Quiz completed successfully', 200);
+        return response()->json(['message' => 'Quiz completed successfully', 'quiz' => $quiz], 200);
     }
 
     /**
@@ -69,22 +76,52 @@ class QuizController extends Controller
         return response()->json('Quiz deleted successfully', 200);
     }
 
-    public function quickPlay(Request $request){
-       $request->validate([
-        'theme_id' => 'required|exists:themes,id'
-       ]);
-       $quiz = $this->quizGeneratorService->generateQuickPlay(Auth::user(),$request->theme_id);
-       return response()->json($quiz, 200);
-    }
-
-    public function customPlay(Request $request){
+    /**
+     * Option 1 : Quiz Rapide (Thème uniquement -> 20 questions par défaut)
+     */
+    public function quickPlay(Request $request)
+    {
         $request->validate([
-            'topic_id' => 'required|exists:topics,id',
-            'number_of_question' => 'required|integer|min:1',
+            'theme_id' => 'required|exists:themes,id',
+            'number_of_questions' => 'nullable|integer|min:1|max:50',
         ]);
-        $quiz = $this->quizGeneratorService->generateCustom(Auth::user(),$request->topic_id,$request->number_of_question);
-        return response()->json($quiz, 200);
+
+        try {
+            $numberOfQuestions = $request->number_of_questions ?? 20;
+            $quiz = $this->quizGeneratorService->generateQuick(
+                Auth::user(),
+                $request->theme_id,
+                $numberOfQuestions
+            );
+            return response()->json(['data' => $quiz], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
     }
 
-}
+    /**
+     * Option 2 : Quiz Personnalisé (Thème / Catégorie / Sous-catégorie / Topic)
+     */
+    public function customPlay(Request $request)
+    {
+        $request->validate([
+            'theme_id' => 'nullable|exists:themes,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
+            'topic_id' => 'nullable|exists:topics,id',
+            'number_of_questions' => 'nullable|integer|min:1|max:50',
+        ]);
 
+        try {
+            $numberOfQuestions = $request->number_of_questions ?? 10;
+            $quiz = $this->quizGeneratorService->generateCustom(
+                Auth::user(),
+                $request->only(['theme_id', 'category_id', 'subcategory_id', 'topic_id']),
+                $numberOfQuestions
+            );
+            return response()->json(['data' => $quiz], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+    }
+}

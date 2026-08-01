@@ -30,12 +30,8 @@ class DatabaseSeeder extends Seeder
 
         // Core seeders
         $this->call([
-            ThemeSeeder::class,
-            CategorySeeder::class,
-            SubcategorySeeder::class,
-            TopicSeeder::class,
-            QuestionSeeder::class,
-            ChoiceSeeder::class,
+            UserSeeder::class,
+            QuizDataSeeder::class,
             BadgeSeeder::class,
         ]);
     }
