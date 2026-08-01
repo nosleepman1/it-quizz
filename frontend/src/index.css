@@ -9,16 +9,18 @@
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
     
-    /* Game Custom Palette */
-    --color-game-bg: #0F0F14;
-    --color-game-card: #1A1A24;
-    --color-game-primary: #7C3AED;
-    --color-game-secondary: #06B6D4;
-    --color-game-success: #22C55E;
-    --color-game-error: #EF4444;
-    --color-game-warning: #F59E0B;
-    --color-game-text: #F8FAFC;
-    --color-game-muted: #94A3B8;
+    /* Luxury Custom Palette mapped to CSS variables */
+    --color-game-bg: var(--game-bg);
+    --color-game-card: var(--game-card);
+    --color-game-primary: var(--game-primary);
+    --color-game-secondary: var(--game-secondary);
+    --color-game-success: var(--game-success);
+    --color-game-error: var(--game-error);
+    --color-game-warning: var(--game-warning);
+    --color-game-text: var(--game-text);
+    --color-game-muted: var(--game-muted);
+    --color-game-border: var(--game-border);
+    --color-game-input: var(--game-input);
 
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -61,37 +63,107 @@
 }
 
 :root {
-    --background: oklch(0.12 0.01 250); /* #0F0F14 in oklch */
-    --foreground: oklch(0.985 0 0);    /* slate-50 */
-    --card: oklch(0.16 0.015 250);      /* #1A1A24 in oklch */
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.16 0.015 250);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.55 0.22 280);    /* #7C3AED in oklch */
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.75 0.15 210);  /* #06B6D4 in oklch */
-    --secondary-foreground: oklch(0.12 0.01 250);
-    --muted: oklch(0.22 0.015 250);
-    --muted-foreground: oklch(0.7 0.01 250);
-    --accent: oklch(0.22 0.015 250);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.22 0.015 250);
-    --input: oklch(0.22 0.015 250);
-    --ring: oklch(0.55 0.22 280);
-    --radius: 0.75rem;
+    /* 1. Theme System (Dark charcoal/noir mais pas contrasté) */
+    --game-bg: #121214;
+    --game-card: #1c1c1f;
+    --game-primary: #3b82f6; /* Blue accent */
+    --game-secondary: #ffffff; /* White details */
+    --game-text: #ececed;
+    --game-muted: #8e8e93;
+    --game-border: rgba(255, 255, 255, 0.08);
+    --game-input: rgba(255, 255, 255, 0.05);
+    --game-success: #10b981;
+    --game-error: #ef4444;
+    --game-warning: #f59e0b;
+
+    --background: oklch(0.15 0.01 240);
+    --foreground: oklch(0.97 0.01 240);
+    --card: oklch(0.18 0.01 240);
+    --card-foreground: oklch(0.97 0.01 240);
+    --popover: oklch(0.18 0.01 240);
+    --popover-foreground: oklch(0.97 0.01 240);
+    --primary: oklch(0.6 0.2 240);
+    --primary-foreground: oklch(0.15 0.01 240);
+    --secondary: oklch(0.55 0.01 240);
+    --secondary-foreground: oklch(0.97 0.01 240);
+    --muted: oklch(0.2 0.01 240);
+    --muted-foreground: oklch(0.6 0.01 240);
+    --accent: oklch(0.2 0.01 240);
+    --accent-foreground: oklch(0.97 0.01 240);
+    --destructive: oklch(0.55 0.15 15);
+    --border: oklch(0.2 0.02 240);
+    --input: oklch(0.2 0.02 240);
+    --ring: oklch(0.6 0.2 240);
+    --radius: 0.5rem;
 }
 
-/* Force dark theme style defaults since it is game-first priority */
+/* 2. Theme Blue (Marine gradient #4EA8DE -> #0B5ED7) */
+html.theme-blue {
+    --game-bg: linear-gradient(135deg, #4EA8DE 0%, #0B5ED7 100%);
+    --game-card: rgba(255, 255, 255, 0.12); /* Glassmorphic card */
+    --game-primary: #DFBA87; /* Champagne Gold (Luxury Accent) */
+    --game-secondary: #ffffff; /* White details */
+    --game-text: #ffffff;
+    --game-muted: #cfe3ff; /* Readable light blue-white text over blue background */
+    --game-border: rgba(255, 255, 255, 0.18);
+    --game-input: rgba(255, 255, 255, 0.08);
+    --game-success: #34d399;
+    --game-error: #f87171;
+    --game-warning: #fbbf24;
+
+    --background: oklch(0.45 0.15 240);
+    --card: oklch(0.55 0.1 240);
+    --foreground: oklch(1 0 0);
+    --border: oklch(0.6 0.1 240);
+}
+
+/* 3. Theme White (Clean White background, text in blue/black) */
+html.theme-white {
+    --game-bg: #ffffff;
+    --game-card: #f8fafc;
+    --game-primary: #0B5ED7; /* Vibrant blue */
+    --game-secondary: #121214; /* Off-black */
+    --game-text: #121214; /* Off-black primary text */
+    --game-muted: #5e6b7e; /* Readable dark grey-blue */
+    --game-border: rgba(11, 94, 215, 0.12);
+    --game-input: rgba(11, 94, 215, 0.06);
+    --game-success: #059669;
+    --game-error: #dc2626;
+    --game-warning: #d97706;
+
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.12 0.03 240);
+    --card: oklch(0.98 0.01 240);
+    --card-foreground: oklch(0.12 0.03 240);
+    --popover: oklch(0.98 0.01 240);
+    --popover-foreground: oklch(0.12 0.03 240);
+    --primary: oklch(0.45 0.15 240);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.96 0.01 240);
+    --secondary-foreground: oklch(0.12 0.03 240);
+    --muted: oklch(0.96 0.01 240);
+    --muted-foreground: oklch(0.45 0.01 240);
+    --accent: oklch(0.96 0.01 240);
+    --accent-foreground: oklch(0.12 0.03 240);
+    --destructive: oklch(0.5 0.2 25);
+    --border: oklch(0.92 0.01 240);
+    --input: oklch(0.92 0.01 240);
+    --ring: oklch(0.45 0.15 240);
+}
+
 html {
-    background-color: #0F0F14;
-    color: #F8FAFC;
-    color-scheme: dark;
+    background: var(--game-bg);
+    color: var(--game-text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.bg-game-bg {
+    background: var(--game-bg) !important;
 }
 
 @layer base {
   * {
-    @apply border-border/40 outline-ring/30;
+    @apply border-border/20 outline-ring/30;
   }
   body {
     @apply bg-game-bg text-game-text min-h-screen overflow-x-hidden;
@@ -99,32 +171,17 @@ html {
   }
 }
 
-/* Neon Glows & Gamified Design Utilities */
-.neon-glow-primary {
-  box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-}
-
-.neon-glow-secondary {
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-}
-
-.neon-glow-success {
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-}
-
-.neon-glow-error {
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
-}
-
+/* Luxury Card styles (Apple, Linear design) */
 .game-glass-card {
-  background: rgba(26, 26, 36, 0.75);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 17, 22, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.035);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
 .game-glass-card-hover:hover {
-  border-color: rgba(124, 58, 237, 0.4);
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+  border-color: rgba(197, 168, 128, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

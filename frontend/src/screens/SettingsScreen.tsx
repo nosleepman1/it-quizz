@@ -9,8 +9,8 @@ const SettingsScreen = () => {
   const navigate = useNavigate();
 
   // Settings states initialized with localStorage or defaults
-  const [themeMode, setThemeMode] = useState<'dark' | 'light'>(
-    (localStorage.getItem('themeMode') as 'dark' | 'light') || 'dark'
+  const [themeMode, setThemeMode] = useState<'system' | 'blue' | 'white'>(
+    (localStorage.getItem('themeMode') as 'system' | 'blue' | 'white') || 'system'
   );
   const [soundEnabled, setSoundEnabled] = useState<boolean>(
     localStorage.getItem('soundEnabled') !== 'false'
@@ -19,16 +19,19 @@ const SettingsScreen = () => {
     localStorage.getItem('notificationsEnabled') === 'true'
   );
 
-  const toggleTheme = () => {
-    const nextTheme = themeMode === 'dark' ? 'light' : 'dark';
-    setThemeMode(nextTheme);
-    localStorage.setItem('themeMode', nextTheme);
+  const changeTheme = (theme: 'system' | 'blue' | 'white') => {
+    setThemeMode(theme);
+    localStorage.setItem('themeMode', theme);
     
-    // Toggle HTML document class
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
+    const html = document.documentElement;
+    html.classList.remove('theme-blue', 'theme-white', 'dark');
+    
+    if (theme === 'blue') {
+      html.classList.add('theme-blue', 'dark');
+    } else if (theme === 'white') {
+      html.classList.add('theme-white');
     } else {
-      document.documentElement.classList.remove('dark');
+      html.classList.add('dark');
     }
   };
 
@@ -45,59 +48,80 @@ const SettingsScreen = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-4 pt-6 pb-8 flex flex-col justify-between">
-      <div>
+    <div className="w-full max-w-md mx-auto min-h-screen bg-game-bg text-game-text px-6 pt-8 pb-8 flex flex-col justify-between font-sans">
+      {/* Grid pattern backdrop */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.02]" 
+           style={{ 
+               backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)', 
+               backgroundSize: '24px 24px' 
+           }} 
+      />
+
+      <div className="z-10">
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <button 
             onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-game-muted hover:text-game-text transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-lg bg-game-input border border-game-border flex items-center justify-center text-game-muted hover:text-game-text active:scale-95 transition-all duration-300 cursor-pointer"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4.5 h-4.5" />
           </button>
-          <span className="text-xs uppercase font-bold tracking-widest text-game-muted">
+          <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted">
             Réglages
           </span>
-          <div className="w-10" />
+          <div className="w-9" />
         </header>
 
         {/* Configurations List */}
         <div className="space-y-4">
           {/* Theme Selector Toggle */}
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
+          <div className="bg-game-card border border-game-border rounded-xl p-4 flex flex-col gap-4 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-game-primary shrink-0">
-                {themeMode === 'dark' ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
+              <div className="w-8 h-8 rounded-lg bg-black/40 border border-game-border flex items-center justify-center text-game-primary shrink-0">
+                {themeMode === 'white' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-game-text">Thème Visuel</h4>
-                <p className="text-[9px] text-game-muted">Changer le mode d'affichage</p>
+                <h4 className="text-[10px] font-bold text-game-text uppercase tracking-wide">Thème Visuel</h4>
+                <p className="text-[9px] text-game-muted mt-0.5 font-medium">Basculez entre nos trois déclinaisons</p>
               </div>
             </div>
-            <button
-              onClick={toggleTheme}
-              className="px-3.5 py-1.5 bg-game-primary/20 border border-game-primary/30 rounded-xl text-[10px] font-black uppercase tracking-wider text-game-primary hover:bg-game-primary hover:text-game-text transition-all cursor-pointer"
-            >
-              {themeMode === 'dark' ? 'Sombre' : 'Clair'}
-            </button>
+            <div className="grid grid-cols-3 gap-1 bg-black/20 p-1 rounded-lg border border-game-border">
+              {(['system', 'blue', 'white'] as const).map((t) => {
+                const label = { system: 'Système', blue: 'Marine', white: 'Blanc' }[t];
+                const active = themeMode === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => changeTheme(t)}
+                    className={`py-1.5 rounded text-[8px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                      active 
+                        ? 'bg-game-primary text-game-bg shadow-sm' 
+                        : 'text-game-muted hover:text-game-text'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Sound settings toggle */}
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
+          <div className="bg-game-card border border-game-border rounded-xl p-4 flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-game-primary shrink-0">
-                {soundEnabled ? <Volume2 className="w-4.5 h-4.5" /> : <VolumeX className="w-4.5 h-4.5" />}
+              <div className="w-8 h-8 rounded-lg bg-black/40 border border-game-border flex items-center justify-center text-game-primary shrink-0">
+                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-game-text">Effets Sonores</h4>
-                <p className="text-[9px] text-game-muted">Sons de buzzer, clic et réussite</p>
+                <h4 className="text-[10px] font-bold text-game-text uppercase tracking-wide">Effets Sonores</h4>
+                <p className="text-[9px] text-game-muted mt-0.5 font-medium">Sons de buzzer, clic et réussite</p>
               </div>
             </div>
             <button
               onClick={toggleSound}
-              className={`px-3.5 py-1.5 border rounded-xl text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 border rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                 soundEnabled 
-                  ? 'bg-game-secondary/20 border-game-secondary/30 text-game-secondary hover:bg-game-secondary hover:text-game-bg' 
+                  ? 'bg-game-primary/10 border-game-primary/20 text-game-primary hover:bg-game-primary hover:text-game-bg' 
                   : 'bg-white/5 border-white/10 text-game-muted hover:text-game-text'
               }`}
             >
@@ -106,21 +130,21 @@ const SettingsScreen = () => {
           </div>
 
           {/* Notification settings toggle */}
-          <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
+          <div className="bg-game-card border border-game-border rounded-xl p-4 flex items-center justify-between shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-game-primary shrink-0">
-                {notificationsEnabled ? <Bell className="w-4.5 h-4.5" /> : <BellOff className="w-4.5 h-4.5" />}
+              <div className="w-8 h-8 rounded-lg bg-black/40 border border-game-border flex items-center justify-center text-game-primary shrink-0">
+                {notificationsEnabled ? <Bell className="w-4 h-4" /> : <BellOff className="w-4 h-4" />}
               </div>
               <div>
-                <h4 className="text-xs font-bold text-game-text">Rappels Quotidiens</h4>
-                <p className="text-[9px] text-game-muted">Gardez votre streak actif</p>
+                <h4 className="text-[10px] font-bold text-game-text uppercase tracking-wide">Rappels Quotidiens</h4>
+                <p className="text-[9px] text-game-muted mt-0.5 font-medium">Gardez votre streak actif</p>
               </div>
             </div>
             <button
               onClick={toggleNotifications}
-              className={`px-3.5 py-1.5 border rounded-xl text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 border rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                 notificationsEnabled 
-                  ? 'bg-game-secondary/20 border-game-secondary/30 text-game-secondary hover:bg-game-secondary hover:text-game-bg' 
+                  ? 'bg-game-primary/10 border-game-primary/20 text-game-primary hover:bg-game-primary hover:text-game-bg' 
                   : 'bg-white/5 border-white/10 text-game-muted hover:text-game-text'
               }`}
             >
@@ -130,40 +154,40 @@ const SettingsScreen = () => {
         </div>
 
         {/* Info card */}
-        <div className="bg-white/5 border border-white/5 rounded-3xl p-5 mt-6 space-y-4">
-          <h3 className="text-xs uppercase font-black tracking-widest text-game-muted flex items-center gap-2">
-            <Info className="w-4.5 h-4.5 text-game-secondary" />
+        <div className="bg-game-card border border-game-border rounded-xl p-5 mt-6 space-y-4 shadow-sm">
+          <h3 className="text-[8px] uppercase font-bold tracking-[0.2em] text-game-muted flex items-center gap-2">
+            <Info className="w-4.5 h-4.5 text-game-primary/80" />
             À Propos
           </h3>
           
-          <div className="space-y-3 text-xs leading-relaxed text-game-muted font-semibold">
-            <div className="flex justify-between py-1.5 border-b border-white/5">
+          <div className="space-y-3.5 text-[10px] leading-relaxed text-game-muted font-medium">
+            <div className="flex justify-between py-1.5 border-b border-game-border">
               <span>Nom du projet</span>
-              <span className="text-game-text font-bold">IT Quizz</span>
+              <span className="text-game-text font-bold uppercase tracking-wide">IT Quizz</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-white/5">
+            <div className="flex justify-between py-1.5 border-b border-game-border">
               <span>Version</span>
               <span className="text-game-text font-mono font-bold">1.2.0 (Stable)</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-white/5">
+            <div className="flex justify-between py-1.5 border-b border-game-border">
               <span>Équipe</span>
-              <span className="text-game-text font-bold">Senior Web Devs</span>
+              <span className="text-game-text font-bold uppercase tracking-wide">Senior Web Devs</span>
             </div>
             <div className="flex justify-between py-1.5">
               <span>Licence</span>
-              <span className="text-game-text font-bold">MIT Open Source</span>
+              <span className="text-game-text font-bold uppercase tracking-wide">MIT Open Source</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer link */}
-      <div className="text-center mt-8">
+      <div className="text-center mt-8 z-10">
         <a 
           href="https://github.com" 
           target="_blank" 
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-[10px] uppercase font-bold tracking-wider text-game-muted hover:text-game-secondary transition-colors"
+          className="inline-flex items-center gap-1.5 text-[8px] uppercase font-bold tracking-[0.15em] text-game-muted hover:text-game-primary transition-colors duration-300"
         >
           <Code className="w-3.5 h-3.5" />
           Code Source sur GitHub
