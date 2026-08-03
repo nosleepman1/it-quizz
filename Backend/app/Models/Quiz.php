@@ -12,6 +12,7 @@ class Quiz extends Model
 
     protected $fillable = [
         'user_id',
+        'theme_id',
         'topic_id',
         'difficulty',
         'status',
@@ -24,6 +25,11 @@ class Quiz extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function theme(): BelongsTo
+    {
+        return $this->belongsTo(Theme::class);
+    }
+
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
@@ -33,4 +39,10 @@ class Quiz extends Model
     {
         return $this->hasOne(Score::class);
     }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'quiz_questions')
+            ->withTimestamps();
+    }   
 }

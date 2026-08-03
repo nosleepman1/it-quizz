@@ -17,7 +17,7 @@ class AuthController extends Controller
         $request->validate([
             'email'       => 'required|email',
             'password'    => 'required',
-            'device_name' => 'required', // name of the token (e.g., "postman")
+            'device_name' => 'nullable|string',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -28,8 +28,39 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $deviceName = $request->device_name ?? $request->header('User-Agent') ?? 'postman';
+        $token = $user->createToken($deviceName)->plainTextToken;
 
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'message' => 'Connexion réussie',
+            'token' => $token,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'email' => $user->email,
+                'role' => $user->role,
+            ]
+        ], 200);
     }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+            $currentToken = $user->currentAccessToken();
+            if ($currentToken) {
+                $currentToken->delete();
+            } else {
+                $user->tokens()->delete();
+            }
+        }
+
+        return response()->json([
+            'message' => 'Déconnexion réussie',
+        ], 200);
+    }
+    
 }
